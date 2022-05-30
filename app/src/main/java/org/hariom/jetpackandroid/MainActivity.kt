@@ -1,36 +1,34 @@
-package org.hariom.jetpackandroid
+package com.cheezycode.mvvmdemo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.util.*
+import androidx.lifecycle.ViewModelProvider
+import org.hariom.jetpackandroid.Quote
+import org.hariom.jetpackandroid.R
+import org.hariom.jetpackandroid.databinding.ActivityMainBinding
 
-/***
- * https://www.youtube.com/watch?v=yPL13Iwy6oM&list=PLRKyZvuMYSIO0jLgj8g6sADnD0IBaWaw2&index=10
- */
 class MainActivity : AppCompatActivity() {
-    lateinit var database: ContactDatabase
+    lateinit var binding: ActivityMainBinding
+    lateinit var mainViewModel: MainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        database = ContactDatabase.getDataBase(this)
+        val dao = QuoteDatabase.getDatabase(applicationContext).quoteDao()
+        val repository = QuoteRepository(dao)
 
+        mainViewModel =
+            ViewModelProvider(this, MainViewModelFactory(repository)).get(MainViewModel::class.java)
 
-        GlobalScope.launch {
-            database.contactDAO().insertContact(Contact(0,"Sid","9033762473", Date()))
-        }
-
-
-    }
-
-    fun getData(view: View) {
-        database.contactDAO().getContact().observe(this, Observer {
-            Log.d("database data", "getData: $it")
+        mainViewModel.getQuotes().observe(this, Observer {
+            binding.quotes = it.toString()
         })
+
+        binding.btnAddQuote.setOnClickListener {
+            val quote = Quote(0, "This is testing", "Testing")
+            mainViewModel.insertQuote(quote)
+        }
     }
 }
