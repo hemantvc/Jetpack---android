@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.room.Room
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.*
 
 /***
  * https://www.youtube.com/watch?v=yPL13Iwy6oM&list=PLRKyZvuMYSIO0jLgj8g6sADnD0IBaWaw2&index=10
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
 
         GlobalScope.launch {
-            database.contactDAO().insertContact(Contact(0,"Sid","9033762473"))
+            database.contactDAO().insertContact(Contact(0,"Sid","9033762473", Date()))
         }
 
 
