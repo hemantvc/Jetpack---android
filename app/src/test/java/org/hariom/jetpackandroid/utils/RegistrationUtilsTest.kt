@@ -4,6 +4,9 @@ import org.junit.Assert.*
 import org.junit.Test
 import com.google.common.truth.Truth.assertThat
 
+/**
+ * https://youtu.be/W0ag98EDhGc?list=PLQkwcJG4YTCSYJ13G4kVIJ10X5zisB2Lq
+ */
 class RegistrationUtilsTest {
 
     @Test
