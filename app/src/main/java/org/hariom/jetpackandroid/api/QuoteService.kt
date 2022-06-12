@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface QuoteService {
 
-    @GET("/quotess")
+    @GET("/quotes")
     suspend fun getQuotes(@Query("page") page: Int) : Response<QuoteList>
 
 }
